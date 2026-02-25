@@ -3,6 +3,9 @@ server:
 spring:
    application:
       name: supply-core
+   mvc:
+      problemdetails:
+         enabled: true
    datasource:
       url: jdbc:h2:./data/supply_core_dev
       driver-class-name: org.h2.Driver
