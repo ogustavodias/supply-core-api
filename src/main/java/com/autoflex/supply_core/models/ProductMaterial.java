@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tb_product_materials", uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "product_id", "raw_material_id" }) })
+            @UniqueConstraint(columnNames = { "product_id", "material_id" }) })
 @Getter
 @Setter
 public class ProductMaterial {
@@ -28,8 +28,8 @@ public class ProductMaterial {
       private Product product;
 
       @ManyToOne
-      @JoinColumn(name = "raw_material_id", nullable = false)
-      private RawMaterial rawMaterial;
+      @JoinColumn(name = "material_id", nullable = false)
+      private Material material;
 
       @Column(nullable = false)
       private Integer requiredAmount;

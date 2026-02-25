@@ -10,10 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tb_raw_materials")
+@Table(name = "tb_materials")
 @Getter
 @Setter
-public class RawMaterial {
+public class Material {
 
    @Id
    @GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -33,8 +33,8 @@ public class ProductService {
       return product.getMaterials()
             .stream()
             .map(m -> new MaterialAmount(
-                  m.getRawMaterial().getName(),
-                  m.getRawMaterial().getStock(),
+                  m.getMaterial().getName(),
+                  m.getMaterial().getStock(),
                   m.getRequiredAmount()))
             .toList();
    }
