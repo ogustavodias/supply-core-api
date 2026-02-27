@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.autoflex.supply_core.dtos.ProductResponse;
+import com.autoflex.supply_core.models.Product;
 import com.autoflex.supply_core.repositories.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,14 @@ public class ProductService {
 
    public List<ProductResponse> getAllProducts() {
       return repository.findAllByOrderByPriceDesc().stream().map(ProductResponse::fromEntity).toList();
+   }
+
+   public void saveProduct(Product product) {
+      repository.save(product);
+   }
+
+   public void deleteProduct(Long id) {
+      repository.deleteById(id);
    }
 
 }
