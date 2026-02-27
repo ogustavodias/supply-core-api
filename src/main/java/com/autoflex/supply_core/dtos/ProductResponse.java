@@ -6,11 +6,17 @@ import java.util.List;
 import com.autoflex.supply_core.models.Product;
 import com.autoflex.supply_core.models.ProductMaterial;
 
-public record ProductResponse(String name, BigDecimal price, List<MaterialAmount> materials, Boolean isProducible) {
+public record ProductResponse(
+      Long id,
+      String name,
+      BigDecimal price,
+      List<MaterialAmount> materials,
+      Boolean isProducible) {
 
    public static ProductResponse fromEntity(Product product) {
       List<MaterialAmount> materials = product.getMaterials().stream().map(MaterialAmount::fromEntity).toList();
       return new ProductResponse(
+            product.getId(),
             product.getName(),
             product.getPrice(),
             materials,
