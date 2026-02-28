@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.repositories.MaterialRepository;
 
@@ -19,11 +20,15 @@ public class MaterialService {
       return repository.findAll();
    }
 
-   public void saveMaterial(Material material) {
-      repository.save(material);
+   public Material getMaterial(Long id) {
+      return repository.findById(id).orElseThrow(() -> new NotFoundException("Material not found."));
    }
 
-   public void deleteMaterial(Long id) {
-      repository.deleteById(id);
+   public Material saveMaterial(Material material) {
+      return repository.save(material);
+   }
+
+   public void deleteMaterial(Material material) {
+      repository.delete(material);
    }
 }
