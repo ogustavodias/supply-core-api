@@ -23,9 +23,10 @@ public record ProductResponse(
             materials.stream().allMatch(m -> m.stock() >= m.requiredAmount()));
    }
 
-   public record MaterialAmount(String name, Integer stock, Integer requiredAmount) {
+   public record MaterialAmount(Long id, String name, Integer stock, Integer requiredAmount) {
       public static MaterialAmount fromEntity(ProductMaterial productMaterial) {
          return new MaterialAmount(
+               productMaterial.getMaterial().getId(),
                productMaterial.getMaterial().getName(),
                productMaterial.getMaterial().getStock(),
                productMaterial.getRequiredAmount());

@@ -20,6 +20,15 @@ public class MaterialService {
       return repository.findAll();
    }
 
+   public List<Material> getAllMaterials(List<Long> ids) {
+      List<Material> found = repository.findAllById(ids);
+
+      if (found.size() < ids.size())
+         throw new NotFoundException("One or more materials were not found.");
+
+      return found;
+   }
+
    public Material getMaterial(Long id) {
       return repository.findById(id).orElseThrow(() -> new NotFoundException("Material not found."));
    }
