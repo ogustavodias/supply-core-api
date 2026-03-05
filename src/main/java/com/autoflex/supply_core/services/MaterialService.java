@@ -3,8 +3,12 @@ package com.autoflex.supply_core.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.autoflex.supply_core.dtos.MaterialCreate;
+import com.autoflex.supply_core.dtos.MaterialRequest;
 import com.autoflex.supply_core.errors.NotFoundException;
+import com.autoflex.supply_core.errors.NotPermittedException;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.repositories.MaterialRepository;
 
@@ -24,20 +28,36 @@ public class MaterialService {
       List<Material> found = repository.findAllById(ids);
 
       if (found.size() < ids.size())
-         throw new NotFoundException("One or more materials were not found.");
+         throw new NotFoundException("one or more materials were not found.");
 
       return found;
    }
 
    public Material getMaterial(Long id) {
-      return repository.findById(id).orElseThrow(() -> new NotFoundException("Material not found."));
+      return repository.findById(id).orElseThrow(
+            () -> new NotFoundException("material not found."));
    }
 
-   public Material saveMaterial(Material material) {
-      return repository.save(material);
+   public Material registerMaterial(MaterialCreate data) {
+      Material toCreate = data.toEntity();
+
+      if (repository.existsByName(data.getName()))
+         throw new NotPermittedException("material with that name already registered");
+
+      return repository.save(toCreate);
    }
 
-   public void deleteMaterial(Material material) {
+   @Transactional
+   public void editMaterial(Long id, MaterialRequest data) {
+      Material material = getMaterial(id);
+      Integer updatedStock = data.getStock();
+      material.setStock(updatedStock);
+      repository.save(material);
+   }
+
+   @Transactional
+   public void deleteMaterial(Long id) {
+      Material material = getMaterial(id);
       repository.delete(material);
    }
 }

@@ -6,16 +6,16 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.autoflex.supply_core.dtos.MaterialCreate;
-import com.autoflex.supply_core.dtos.MaterialEdit;
+import com.autoflex.supply_core.dtos.MaterialRequest;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.services.MaterialService;
 
@@ -41,9 +41,8 @@ public class MaterialController {
    }
 
    @PostMapping
-   public ResponseEntity<Void> registerMaterial(@RequestBody @Valid MaterialCreate request) {
-      Material material = request.toEntity();
-      Material savedMaterial = service.saveMaterial(material);
+   public ResponseEntity<Void> registerMaterial(@RequestBody @Valid MaterialCreate data) {
+      Material savedMaterial = service.registerMaterial(data);
 
       URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -54,23 +53,16 @@ public class MaterialController {
       return ResponseEntity.created(uri).build();
    }
 
-   @PutMapping
-   public ResponseEntity<Material> editMaterial(@RequestBody @Valid MaterialEdit request) {
-      Material material = service.getMaterial(request.id());
-
-      material.setName(request.name());
-      material.setStock(request.stock());
-
-      return ResponseEntity.ok(service.saveMaterial(material));
+   @PatchMapping("/{id}")
+   public ResponseEntity<Void> editMaterial(@PathVariable Long id, @RequestBody @Valid MaterialRequest request) {
+      service.editMaterial(id, request);
+      return ResponseEntity.ok().build();
    }
 
    @DeleteMapping("/{id}")
    public ResponseEntity<Void> deleteMaterial(@PathVariable Long id) {
-      Material material = service.getMaterial(id);
-
-      service.deleteMaterial(material);
-
-      return ResponseEntity.ok(null);
+      service.deleteMaterial(id);
+      return ResponseEntity.ok().build();
    }
 
 }
