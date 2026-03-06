@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaterialRequest {
+public class MaterialUpdate {
 
    @NotNull(message = "stock is required.")
    @Min(value = 1, message = "The stock must be greater than or equal to one.")

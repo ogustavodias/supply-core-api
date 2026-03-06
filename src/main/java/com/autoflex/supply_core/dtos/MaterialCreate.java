@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MaterialCreate extends MaterialRequest {
+public class MaterialCreate extends MaterialUpdate {
    @NotBlank(message = "name is required.")
    private String name;
 

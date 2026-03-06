@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.autoflex.supply_core.dtos.MaterialCreate;
-import com.autoflex.supply_core.dtos.MaterialRequest;
+import com.autoflex.supply_core.dtos.MaterialUpdate;
 import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.errors.NotPermittedException;
 import com.autoflex.supply_core.models.Material;
@@ -48,7 +48,7 @@ public class MaterialService {
    }
 
    @Transactional
-   public void editMaterial(Long id, MaterialRequest data) {
+   public void editMaterial(Long id, MaterialUpdate data) {
       Material material = getMaterial(id);
       Integer updatedStock = data.getStock();
       material.setStock(updatedStock);

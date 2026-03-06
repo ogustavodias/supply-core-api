@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.autoflex.supply_core.dtos.MaterialCreate;
-import com.autoflex.supply_core.dtos.MaterialRequest;
+import com.autoflex.supply_core.dtos.MaterialUpdate;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.services.MaterialService;
 
@@ -54,7 +54,7 @@ public class MaterialController {
    }
 
    @PatchMapping("/{id}")
-   public ResponseEntity<Void> editMaterial(@PathVariable Long id, @RequestBody @Valid MaterialRequest request) {
+   public ResponseEntity<Void> editMaterial(@PathVariable Long id, @RequestBody @Valid MaterialUpdate request) {
       service.editMaterial(id, request);
       return ResponseEntity.ok().build();
    }
