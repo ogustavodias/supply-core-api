@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.autoflex.supply_core.dtos.ProductRequest;
+import com.autoflex.supply_core.dtos.ProductCreate;
+import com.autoflex.supply_core.dtos.ProductMaterialRequest;
 import com.autoflex.supply_core.dtos.ProductResponse;
 import com.autoflex.supply_core.models.Product;
 import com.autoflex.supply_core.services.ProductService;
@@ -41,8 +42,8 @@ public class ProductController {
    }
 
    @PostMapping
-   public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductRequest request) {
-      Product savedProduct = service.saveProduct(request);
+   public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductCreate data) {
+      Product savedProduct = service.saveProduct(data);
 
       URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -51,6 +52,12 @@ public class ProductController {
             .toUri();
 
       return ResponseEntity.created(uri).build();
+   }
+
+   @PostMapping("/{id}/materials")
+   public ResponseEntity<Void> addMaterial(@PathVariable Long id, @RequestBody @Valid ProductMaterialRequest data) {
+      service.addMaterial(id, data);
+      return ResponseEntity.ok().build();
    }
 
    @DeleteMapping("/{id}")

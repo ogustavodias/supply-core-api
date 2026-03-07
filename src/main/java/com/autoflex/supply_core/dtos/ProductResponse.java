@@ -10,8 +10,8 @@ public record ProductResponse(
       Long id,
       String name,
       BigDecimal price,
-      List<MaterialAmount> materials,
-      Boolean isProducible) {
+      Boolean isProducible,
+      List<MaterialAmount> materials) {
 
    public static ProductResponse fromEntity(Product product) {
       List<MaterialAmount> materials = product.getMaterials().stream().map(MaterialAmount::fromEntity).toList();
@@ -19,8 +19,8 @@ public record ProductResponse(
             product.getId(),
             product.getName(),
             product.getPrice(),
-            materials,
-            materials.stream().allMatch(m -> m.stock() >= m.requiredAmount()));
+            materials.stream().allMatch(m -> m.stock() >= m.requiredAmount()),
+            materials);
    }
 
    public record MaterialAmount(Long id, String name, Integer stock, Integer requiredAmount) {

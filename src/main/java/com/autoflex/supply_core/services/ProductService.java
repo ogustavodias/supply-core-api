@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.autoflex.supply_core.dtos.ProductMaterialRequest;
-import com.autoflex.supply_core.dtos.ProductRequest;
+import com.autoflex.supply_core.dtos.ProductCreate;
 import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.models.Product;
@@ -28,20 +28,27 @@ public class ProductService {
    }
 
    public Product getProduct(Long id) {
-      Product product = repository.findById(id).orElseThrow(
+      return repository.findById(id).orElseThrow(
             () -> new NotFoundException("Product not found."));
-
-      return product;
    }
 
    @Transactional
-   public Product saveProduct(ProductRequest data) {
+   public Product saveProduct(ProductCreate data) {
       Product product = new Product();
       populateProduct(product, data);
       return repository.save(product);
    }
 
-   private void populateProduct(Product product, ProductRequest data) {
+   @Transactional
+   public void addMaterial(Long id, ProductMaterialRequest data) {
+      Product product = getProduct(id);
+      Material material = materialService.getMaterial(data.getId());
+
+      product.addMaterial(material, data.getRequiredAmount());
+      repository.save(product);
+   }
+
+   private void populateProduct(Product product, ProductCreate data) {
       List<Long> materialsIds = data.getMaterials().stream().map(ProductMaterialRequest::getId).toList();
       List<Material> materials = materialService.getAllMaterials(materialsIds);
       Map<Long, Material> materialsMap = materials.stream().collect(

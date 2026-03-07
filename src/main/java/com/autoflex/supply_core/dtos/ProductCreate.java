@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class ProductCreate {
 
    @NotBlank(message = "name is required.")
    private String name;
