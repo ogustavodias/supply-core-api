@@ -12,19 +12,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "tb_products")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
    @Id
    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-
    private Long id;
 
    @Column(nullable = false, unique = true)
@@ -34,16 +38,7 @@ public class Product {
    private BigDecimal price;
 
    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-   @Setter(AccessLevel.NONE)
+   @Builder.Default
    private List<ProductMaterial> materials = new ArrayList<>();
 
-   public void addMaterial(Material material, Integer requiredAmount) {
-      ProductMaterial link = new ProductMaterial();
-
-      link.setProduct(this);
-      link.setMaterial(material);
-      link.setRequiredAmount(requiredAmount);
-
-      this.materials.add(link);
-   }
 }

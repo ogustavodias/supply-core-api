@@ -6,11 +6,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.autoflex.supply_core.dtos.ProductMaterialRequest;
+import com.autoflex.supply_core.dtos.ProductMaterialCreate;
 import com.autoflex.supply_core.dtos.ProductCreate;
 import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.models.Material;
 import com.autoflex.supply_core.models.Product;
+import com.autoflex.supply_core.models.ProductMaterial;
 import com.autoflex.supply_core.repositories.ProductRepository;
 
 import jakarta.transaction.Transactional;
@@ -33,31 +34,29 @@ public class ProductService {
    }
 
    @Transactional
-   public Product saveProduct(ProductCreate data) {
-      Product product = new Product();
-      populateProduct(product, data);
-      return repository.save(product);
-   }
+   public Product createProduct(ProductCreate product) {
+      Map<Long, Integer> materialsAmount = product.getMaterials().stream().collect(Collectors.toMap(
+            ProductMaterialCreate::getId, material -> material.getRequiredAmount()));
 
-   @Transactional
-   public void addMaterial(Long id, ProductMaterialRequest data) {
-      Product product = getProduct(id);
-      Material material = materialService.getMaterial(data.getId());
+      List<Material> materials = materialService
+            .getAllMaterials(product.getMaterials().stream().map(ProductMaterialCreate::getId).toList());
 
-      product.addMaterial(material, data.getRequiredAmount());
-      repository.save(product);
-   }
+      Product productToSave = Product.builder()
+            .name(product.getName())
+            .price(product.getPrice())
+            .build();
 
-   private void populateProduct(Product product, ProductCreate data) {
-      List<Long> materialsIds = data.getMaterials().stream().map(ProductMaterialRequest::getId).toList();
-      List<Material> materials = materialService.getAllMaterials(materialsIds);
-      Map<Long, Material> materialsMap = materials.stream().collect(
-            Collectors.toMap(Material::getId, material -> material));
+      List<ProductMaterial> productMaterials = materials.stream()
+            .map(m -> ProductMaterial.builder()
+                  .product(productToSave)
+                  .material(m)
+                  .requiredAmount(materialsAmount.get(m.getId()))
+                  .build())
+            .toList();
 
-      product.setName(data.getName());
-      product.setPrice(data.getPrice());
-      data.getMaterials()
-            .forEach(material -> product.addMaterial(materialsMap.get(material.getId()), material.getRequiredAmount()));
+      productToSave.setMaterials(productMaterials);
+
+      return repository.save(productToSave);
    }
 
    public void deleteProduct(Product product) {

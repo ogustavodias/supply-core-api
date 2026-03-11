@@ -28,6 +28,6 @@ public class ProductCreate {
 
    @NotEmpty(message = "At least one Material is required to create the Product.")
    @Valid
-   private List<ProductMaterialRequest> materials;
+   private List<ProductMaterialCreate> materials;
 
 }

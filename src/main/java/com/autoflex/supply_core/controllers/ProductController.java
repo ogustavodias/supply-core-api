@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.autoflex.supply_core.dtos.ProductCreate;
-import com.autoflex.supply_core.dtos.ProductMaterialRequest;
+import com.autoflex.supply_core.dtos.ProductMaterialCreate;
 import com.autoflex.supply_core.dtos.ProductResponse;
 import com.autoflex.supply_core.models.Product;
+import com.autoflex.supply_core.services.ProductMaterialService;
 import com.autoflex.supply_core.services.ProductService;
 
 import jakarta.validation.Valid;
@@ -27,23 +28,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductController {
 
-   private final ProductService service;
+   private final ProductService productService;
+   private final ProductMaterialService productMaterialService;
 
    @GetMapping
    public ResponseEntity<List<ProductResponse>> getAllProducts() {
-      List<ProductResponse> products = service.getAllProducts().stream().map(ProductResponse::fromEntity).toList();
+      List<ProductResponse> products = productService.getAllProducts().stream().map(ProductResponse::fromEntity)
+            .toList();
       return ResponseEntity.ok(products);
    }
 
    @GetMapping("/{id}")
    public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
-      ProductResponse product = ProductResponse.fromEntity(service.getProduct(id));
+      ProductResponse product = ProductResponse.fromEntity(productService.getProduct(id));
       return ResponseEntity.ok(product);
    }
 
    @PostMapping
-   public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductCreate data) {
-      Product savedProduct = service.saveProduct(data);
+   public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductCreate product) {
+      Product savedProduct = productService.createProduct(product);
 
       URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -55,16 +58,19 @@ public class ProductController {
    }
 
    @PostMapping("/{id}/materials")
-   public ResponseEntity<Void> addMaterial(@PathVariable Long id, @RequestBody @Valid ProductMaterialRequest data) {
-      service.addMaterial(id, data);
+   public ResponseEntity<Void> addMaterial(
+         @PathVariable(name = "id") Long productId,
+         @RequestBody @Valid ProductMaterialCreate data) {
+      productMaterialService.addMaterial(productId, data);
       return ResponseEntity.ok().build();
+
    }
 
    @DeleteMapping("/{id}")
    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-      Product product = service.getProduct(id);
+      Product product = productService.getProduct(id);
 
-      service.deleteProduct(product);
+      productService.deleteProduct(product);
 
       return ResponseEntity.ok(null);
    }

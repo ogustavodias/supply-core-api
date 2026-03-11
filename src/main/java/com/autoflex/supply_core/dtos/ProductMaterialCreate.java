@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductMaterialRequest {
+public class ProductMaterialCreate {
    @NotNull(message = "id of material is required.")
    private Long id;
 
