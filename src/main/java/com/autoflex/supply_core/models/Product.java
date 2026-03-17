@@ -31,7 +31,7 @@ public class Product {
    @GeneratedValue(strategy = GenerationType.SEQUENCE)
    private Long id;
 
-   @Column(nullable = false, unique = true)
+   @Column(nullable = false)
    private String name;
 
    @Column(nullable = false)
