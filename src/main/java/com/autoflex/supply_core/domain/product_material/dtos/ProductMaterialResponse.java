@@ -1,6 +1,6 @@
-package com.autoflex.supply_core.dtos;
+package com.autoflex.supply_core.domain.product_material.dtos;
 
-import com.autoflex.supply_core.models.ProductMaterial;
+import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
 
 public record ProductMaterialResponse(Long id, Long materialId, String materialName, Integer stock,
       Integer requiredAmount) {

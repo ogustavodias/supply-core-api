@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.dtos;
+package com.autoflex.supply_core.domain.material.dtos;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

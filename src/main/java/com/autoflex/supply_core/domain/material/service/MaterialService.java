@@ -1,16 +1,16 @@
-package com.autoflex.supply_core.services;
+package com.autoflex.supply_core.domain.material.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.autoflex.supply_core.dtos.MaterialCreate;
-import com.autoflex.supply_core.dtos.MaterialUpdate;
+import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
+import com.autoflex.supply_core.domain.material.dtos.MaterialUpdate;
+import com.autoflex.supply_core.domain.material.model.Material;
+import com.autoflex.supply_core.domain.material.repository.MaterialRepository;
 import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.errors.NotPermittedException;
-import com.autoflex.supply_core.models.Material;
-import com.autoflex.supply_core.repositories.MaterialRepository;
 
 import lombok.RequiredArgsConstructor;
 

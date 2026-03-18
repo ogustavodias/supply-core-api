@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.dtos;
+package com.autoflex.supply_core.domain.product.dtos;
 
 import java.math.BigDecimal;
 

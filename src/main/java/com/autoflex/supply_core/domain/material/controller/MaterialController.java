@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.controllers;
+package com.autoflex.supply_core.domain.material.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.autoflex.supply_core.dtos.MaterialCreate;
-import com.autoflex.supply_core.dtos.MaterialUpdate;
-import com.autoflex.supply_core.models.Material;
-import com.autoflex.supply_core.services.MaterialService;
+import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
+import com.autoflex.supply_core.domain.material.dtos.MaterialUpdate;
+import com.autoflex.supply_core.domain.material.model.Material;
+import com.autoflex.supply_core.domain.material.service.MaterialService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

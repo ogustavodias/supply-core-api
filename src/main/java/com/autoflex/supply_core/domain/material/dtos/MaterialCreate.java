@@ -1,6 +1,6 @@
-package com.autoflex.supply_core.dtos;
+package com.autoflex.supply_core.domain.material.dtos;
 
-import com.autoflex.supply_core.models.Material;
+import com.autoflex.supply_core.domain.material.model.Material;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

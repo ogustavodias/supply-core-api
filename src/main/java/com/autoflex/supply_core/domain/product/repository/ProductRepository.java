@@ -1,10 +1,10 @@
-package com.autoflex.supply_core.repositories;
+package com.autoflex.supply_core.domain.product.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.autoflex.supply_core.models.Product;
+import com.autoflex.supply_core.domain.product.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 

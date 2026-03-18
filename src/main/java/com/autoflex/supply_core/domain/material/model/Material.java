@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.models;
+package com.autoflex.supply_core.domain.material.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

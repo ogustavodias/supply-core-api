@@ -1,8 +1,10 @@
-package com.autoflex.supply_core.models;
+package com.autoflex.supply_core.domain.product.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
