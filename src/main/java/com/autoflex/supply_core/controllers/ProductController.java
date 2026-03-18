@@ -33,19 +33,6 @@ public class ProductController {
    private final ProductService productService;
    private final ProductMaterialService productMaterialService;
 
-   @GetMapping
-   public ResponseEntity<List<ProductResponse>> getAllProducts() {
-      List<ProductResponse> products = productService.getAllProducts().stream().map(ProductResponse::fromEntity)
-            .toList();
-      return ResponseEntity.ok(products);
-   }
-
-   @GetMapping("/{id}")
-   public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
-      ProductResponse product = ProductResponse.fromEntity(productService.getProduct(id));
-      return ResponseEntity.ok(product);
-   }
-
    @PostMapping
    public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductCreate product) {
       Product savedProduct = productService.createProduct(product);
@@ -59,19 +46,23 @@ public class ProductController {
       return ResponseEntity.created(uri).build();
    }
 
+   @GetMapping
+   public ResponseEntity<List<ProductResponse>> getAllProducts() {
+      List<ProductResponse> products = productService.getAllProducts().stream().map(ProductResponse::fromEntity)
+            .toList();
+      return ResponseEntity.ok(products);
+   }
+
+   @GetMapping("/{id}")
+   public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
+      ProductResponse product = ProductResponse.fromEntity(productService.getProduct(id));
+      return ResponseEntity.ok(product);
+   }
+
    @PatchMapping("/{id}")
    public ResponseEntity<Void> editProduct(@PathVariable Long id, @RequestBody ProductUpdate product) {
       productService.updateProduct(id, product);
       return ResponseEntity.noContent().build();
-   }
-
-   @PostMapping("/{id}/materials")
-   public ResponseEntity<Void> addMaterial(
-         @PathVariable(name = "id") Long productId,
-         @RequestBody @Valid ProductMaterialCreate data) {
-      productMaterialService.addMaterial(productId, data);
-      return ResponseEntity.ok().build();
-
    }
 
    @DeleteMapping("/{id}")
@@ -81,6 +72,22 @@ public class ProductController {
       productService.deleteProduct(product);
 
       return ResponseEntity.ok(null);
+   }
+
+   @PostMapping("/{id}/materials")
+   public ResponseEntity<Void> addMaterial(
+         @PathVariable(name = "id") Long productId,
+         @RequestBody @Valid ProductMaterialCreate data) {
+      productMaterialService.addMaterial(productId, data);
+      return ResponseEntity.ok().build();
+   }
+
+   @DeleteMapping("/{id}/materials/{material_id}")
+   public ResponseEntity<Void> removeMaterial(
+         @PathVariable(name = "id") Long productId,
+         @PathVariable(name = "material_id") Long materialId) {
+      productMaterialService.removeMaterial(productId, materialId);
+      return ResponseEntity.ok().build();
    }
 
 }
