@@ -18,6 +18,5 @@ public class ProductMaterialCreate {
 
    @NotNull(message = "amount is required.")
    @Min(value = 1, message = "The amount must be greater than or equal to one.")
-   @Max(value = -1, message = "The amount must be less than or equal to -1.")
    private Integer requiredAmount;
 }
