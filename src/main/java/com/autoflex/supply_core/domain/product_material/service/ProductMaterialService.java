@@ -1,15 +1,13 @@
 package com.autoflex.supply_core.domain.product_material.service;
 
-import java.util.Objects;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.autoflex.supply_core.domain.material.model.Material;
-import com.autoflex.supply_core.domain.material.repository.MaterialRepository;
 import com.autoflex.supply_core.domain.product.model.Product;
-import com.autoflex.supply_core.domain.product.repository.ProductRepository;
-import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialCreate;
 import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
+import com.autoflex.supply_core.domain.product_material.repository.ProductMaterialRepository;
 import com.autoflex.supply_core.errors.NotFoundException;
 import com.autoflex.supply_core.errors.NotPermittedException;
 
@@ -20,37 +18,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductMaterialService {
 
-      private final ProductRepository productRepository;
-      private final MaterialRepository materialRepository;
+      private final ProductMaterialRepository pmRepository;
 
-      @Transactional
-      public void addMaterial(Long productId, ProductMaterialCreate data) {
-            Product product = productRepository.findById(productId)
-                        .orElseThrow(() -> new NotFoundException("Product not found."));
-            Material material = materialRepository.findById(data.getId())
-                        .orElseThrow(() -> new NotFoundException("Material not found."));
+      public List<ProductMaterial> getAllProductMaterials(Product product) {
+            return pmRepository.findByProduct(product);
+      }
 
-            product.getMaterials().add(
-                        ProductMaterial.builder()
-                                    .product(product)
-                                    .material(material)
-                                    .requiredAmount(data.getRequiredAmount())
-                                    .build());
-
-            productRepository.save(product);
+      public ProductMaterial getProductMaterial(Product product, Material material) {
+            return pmRepository.findByProductAndMaterial(product, material)
+                        .orElseThrow(() -> new NotFoundException("Product material not found."));
       }
 
       @Transactional
-      public void removeMaterial(Long productId, Long materialId) {
-            Product product = productRepository.findById(productId)
-                        .orElseThrow(() -> new NotFoundException("Product not found."));
+      public void addMaterial(ProductMaterial productMaterial) {
+            boolean alreadyAssociated = pmRepository.existsByProductAndMaterial(productMaterial.getProduct(),
+                        productMaterial.getMaterial());
 
-            if (product.getMaterials().size() == 1)
-                  throw new NotPermittedException("A product must have at least one material.");
+            if (alreadyAssociated)
+                  throw new NotPermittedException("This material is already associated with the product.");
 
-            product.getMaterials().removeIf(item -> Objects.equals(item.getMaterial().getId(), materialId));
+            pmRepository.save(productMaterial);
+      }
 
-            productRepository.save(product);
+      @Transactional
+      public void removeMaterial(Product product, Material material) {
+            pmRepository.delete(getProductMaterial(product, material));
       }
 
 }

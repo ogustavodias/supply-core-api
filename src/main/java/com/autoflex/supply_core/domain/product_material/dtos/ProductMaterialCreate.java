@@ -1,6 +1,9 @@
 package com.autoflex.supply_core.domain.product_material.dtos;
 
-import jakarta.validation.constraints.Max;
+import com.autoflex.supply_core.domain.material.model.Material;
+import com.autoflex.supply_core.domain.product.model.Product;
+import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,10 +16,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductMaterialCreate {
-   @NotNull(message = "id of material is required.")
-   private Long id;
-
    @NotNull(message = "amount is required.")
    @Min(value = 1, message = "The amount must be greater than or equal to one.")
    private Integer requiredAmount;
+
+   public ProductMaterial toEntity(Product product, Material material) {
+      return ProductMaterial.builder()
+            .product(product)
+            .material(material)
+            .requiredAmount(requiredAmount)
+            .build();
+   }
 }

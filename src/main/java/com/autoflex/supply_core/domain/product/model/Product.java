@@ -43,4 +43,9 @@ public class Product {
    @Builder.Default
    private List<ProductMaterial> materials = new ArrayList<>();
 
+   public Boolean isProducible() {
+      return materials.size() > 0
+            && materials.stream().allMatch(m -> m.getMaterial().getStock() >= m.getRequiredAmount());
+   }
+
 }

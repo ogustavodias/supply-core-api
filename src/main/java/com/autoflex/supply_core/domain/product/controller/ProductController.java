@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.autoflex.supply_core.domain.material.model.Material;
+import com.autoflex.supply_core.domain.material.service.MaterialService;
 import com.autoflex.supply_core.domain.product.dtos.ProductCreate;
 import com.autoflex.supply_core.domain.product.dtos.ProductResponse;
 import com.autoflex.supply_core.domain.product.dtos.ProductUpdate;
 import com.autoflex.supply_core.domain.product.model.Product;
 import com.autoflex.supply_core.domain.product.service.ProductService;
 import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialCreate;
+import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialResponse;
 import com.autoflex.supply_core.domain.product_material.service.ProductMaterialService;
 
 import jakarta.validation.Valid;
@@ -31,11 +35,12 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
    private final ProductService productService;
+   private final MaterialService materialService;
    private final ProductMaterialService productMaterialService;
 
    @PostMapping
    public ResponseEntity<Void> registerProduct(@RequestBody @Valid ProductCreate product) {
-      Product savedProduct = productService.createProduct(product);
+      Product savedProduct = productService.createProduct(product.toEntity());
 
       URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
@@ -71,14 +76,32 @@ public class ProductController {
 
       productService.deleteProduct(product);
 
-      return ResponseEntity.ok(null);
+      return ResponseEntity.ok().build();
    }
 
-   @PostMapping("/{id}/materials")
+   @GetMapping("/{id}/materials")
+   public ResponseEntity<List<ProductMaterialResponse>> getProductMaterials(@PathVariable Long id) {
+      Product product = productService.getProduct(id);
+
+      List<ProductMaterialResponse> productMaterials = productMaterialService.getAllProductMaterials(product)
+            .stream()
+            .map(ProductMaterialResponse::fromEntity)
+            .toList();
+
+      return ResponseEntity.ok(productMaterials);
+   }
+
+   @PostMapping("/{id}/materials/{material_id}")
+   @ResponseStatus(code = org.springframework.http.HttpStatus.OK)
    public ResponseEntity<Void> addMaterial(
          @PathVariable(name = "id") Long productId,
+         @PathVariable(name = "material_id") Long materialId,
          @RequestBody @Valid ProductMaterialCreate data) {
-      productMaterialService.addMaterial(productId, data);
+      Product product = productService.getProduct(productId);
+      Material material = materialService.getMaterial(materialId);
+
+      productMaterialService.addMaterial(data.toEntity(product, material));
+
       return ResponseEntity.ok().build();
    }
 
@@ -86,7 +109,11 @@ public class ProductController {
    public ResponseEntity<Void> removeMaterial(
          @PathVariable(name = "id") Long productId,
          @PathVariable(name = "material_id") Long materialId) {
-      productMaterialService.removeMaterial(productId, materialId);
+      Product product = productService.getProduct(productId);
+      Material material = materialService.getMaterial(materialId);
+
+      productMaterialService.removeMaterial(product, material);
+
       return ResponseEntity.ok().build();
    }
 
