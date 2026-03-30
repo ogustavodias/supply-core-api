@@ -24,7 +24,7 @@ public class MaterialServiceTest {
    @DisplayName("should register material with success")
    void shouldRegisterMaterial() {
       Mockito.when(repository.existsByName("Material Register Test")).thenReturn(false);
-      Assertions.assertDoesNotThrow(() -> service.registerMaterial(new MaterialCreate("Material Register Test")));
+      Assertions.assertDoesNotThrow(() -> service.registerMaterial(new MaterialCreate("Material Register Test", 20)));
    }
 
 }
