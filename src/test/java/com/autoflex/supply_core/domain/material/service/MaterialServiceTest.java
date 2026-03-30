@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 
 import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
 import com.autoflex.supply_core.domain.material.repository.MaterialRepository;
+import com.autoflex.supply_core.errors.NotPermittedException;
 
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 public class MaterialServiceTest {
@@ -25,6 +26,14 @@ public class MaterialServiceTest {
    void shouldRegisterMaterial() {
       Mockito.when(repository.existsByName("Material Register Test")).thenReturn(false);
       Assertions.assertDoesNotThrow(() -> service.registerMaterial(new MaterialCreate("Material Register Test", 20)));
+   }
+
+   @Test
+   @DisplayName("should not register material if it already exists")
+   void shouldNotRegisterMaterial() {
+      Mockito.when(repository.existsByName("Material Register Test")).thenReturn(true);
+      Assertions.assertThrows(NotPermittedException.class,
+            () -> service.registerMaterial(new MaterialCreate("Material Register Test", 20)));
    }
 
 }
