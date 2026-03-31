@@ -48,4 +48,11 @@ public class Product {
             && materials.stream().allMatch(m -> m.getMaterial().getStock() >= m.getRequiredAmount());
    }
 
+   public int getProducibleQuantity() {
+      return materials.stream()
+            .mapToInt(m -> m.getMaterial().getStock() / m.getRequiredAmount())
+            .min()
+            .orElse(0);
+   }
+
 }
