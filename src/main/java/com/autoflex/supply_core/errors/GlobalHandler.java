@@ -40,6 +40,7 @@ public class GlobalHandler {
 
       ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_CONTENT);
       problem.setProperty("errorTrace", errorTrace);
+      problem.setTitle(e.getMessage());
 
       return problem;
    }
@@ -51,6 +52,7 @@ public class GlobalHandler {
 
       ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
       problem.setProperty("errorTrace", errorTrace);
+      problem.setTitle(e.getMessage());
 
       return problem;
    }

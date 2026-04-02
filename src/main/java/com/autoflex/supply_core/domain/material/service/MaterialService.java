@@ -2,6 +2,8 @@ package com.autoflex.supply_core.domain.material.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +22,8 @@ public class MaterialService {
 
    private final MaterialRepository repository;
 
-   public List<Material> getAllMaterials() {
-      return repository.findAll();
+   public Page<Material> getAllMaterials(Pageable pageable) {
+      return repository.findAll(pageable);
    }
 
    public List<Material> getAllMaterials(List<Long> ids) {
