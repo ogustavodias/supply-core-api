@@ -26,6 +26,7 @@ public class MaterialServiceTest {
    void shouldRegisterMaterial() {
       Mockito.when(repository.existsByName("Material Register Test")).thenReturn(false);
       Assertions.assertDoesNotThrow(() -> service.registerMaterial(new MaterialCreate("Material Register Test", 20)));
+      Mockito.verify(repository).save(Mockito.any());
    }
 
    @Test
@@ -34,6 +35,7 @@ public class MaterialServiceTest {
       Mockito.when(repository.existsByName("Material Register Test")).thenReturn(true);
       Assertions.assertThrows(NotPermittedException.class,
             () -> service.registerMaterial(new MaterialCreate("Material Register Test", 20)));
+      Mockito.verify(repository, Mockito.never()).save(Mockito.any());
    }
 
 }

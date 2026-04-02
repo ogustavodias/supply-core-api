@@ -34,12 +34,6 @@ public class MaterialController {
       return ResponseEntity.ok(service.getAllMaterials());
    }
 
-   @GetMapping("/{id}")
-   public ResponseEntity<Material> getMaterial(@PathVariable Long id) {
-      Material material = service.getMaterial(id);
-      return ResponseEntity.ok(material);
-   }
-
    @PostMapping
    public ResponseEntity<Void> registerMaterial(@RequestBody @Valid MaterialCreate data) {
       Material savedMaterial = service.registerMaterial(data);
@@ -54,8 +48,8 @@ public class MaterialController {
    }
 
    @PatchMapping("/{id}")
-   public ResponseEntity<Void> editMaterial(@PathVariable Long id, @RequestBody @Valid MaterialUpdate request) {
-      service.editMaterial(id, request);
+   public ResponseEntity<Void> editMaterial(@PathVariable Long id, @RequestBody @Valid MaterialUpdate data) {
+      service.editMaterial(id, data);
       return ResponseEntity.ok().build();
    }
 

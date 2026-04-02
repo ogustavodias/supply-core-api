@@ -25,12 +25,7 @@ public class MaterialService {
    }
 
    public List<Material> getAllMaterials(List<Long> ids) {
-      List<Material> found = repository.findAllById(ids);
-
-      if (found.size() < ids.size())
-         throw new NotFoundException("one or more materials were not found.");
-
-      return found;
+      return repository.findAllById(ids);
    }
 
    public Material getMaterial(Long id) {
@@ -38,21 +33,21 @@ public class MaterialService {
             () -> new NotFoundException("material not found."));
    }
 
+   @Transactional
    public Material registerMaterial(MaterialCreate data) {
       Material toCreate = data.toEntity();
 
-      if (repository.existsByName(data.getName()))
-         throw new NotPermittedException("material with that name already registered");
+      if (repository.existsByName(data.name) == false)
+         return repository.save(toCreate);
 
-      return repository.save(toCreate);
+      throw new NotPermittedException("material with that name already registered");
    }
 
    @Transactional
-   public void editMaterial(Long id, MaterialUpdate data) {
+   public Material editMaterial(Long id, MaterialUpdate data) {
       Material material = getMaterial(id);
-      Integer updatedStock = data.getStock();
-      material.setStock(updatedStock);
-      repository.save(material);
+      material.setStock(data.stock);
+      return repository.save(material);
    }
 
    @Transactional
