@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.domain.material.dtos;
+package com.autoflex.supply_core.global.dtos;
 
 import java.util.List;
 

@@ -1,8 +1,9 @@
 package com.autoflex.supply_core.domain.product.service;
 
-import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.autoflex.supply_core.domain.product.dtos.ProductUpdate;
@@ -20,8 +21,8 @@ public class ProductService {
 
       private final ProductRepository repository;
 
-      public List<Product> getAllProducts() {
-            return repository.findAllByOrderByPriceDesc();
+      public Page<Product> getAllProducts(Pageable pageable) {
+            return repository.findAllByOrderByPriceDesc(pageable);
       }
 
       public Product getProduct(Long id) {

@@ -18,9 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
 import com.autoflex.supply_core.domain.material.dtos.MaterialUpdate;
-import com.autoflex.supply_core.domain.material.dtos.PagedResponse;
 import com.autoflex.supply_core.domain.material.model.Material;
 import com.autoflex.supply_core.domain.material.service.MaterialService;
+import com.autoflex.supply_core.global.dtos.PagedResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

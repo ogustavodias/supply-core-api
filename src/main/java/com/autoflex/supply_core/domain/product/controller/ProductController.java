@@ -3,6 +3,8 @@ package com.autoflex.supply_core.domain.product.controller;
 import java.net.URI;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +28,7 @@ import com.autoflex.supply_core.domain.product.service.ProductService;
 import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialCreate;
 import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialResponse;
 import com.autoflex.supply_core.domain.product_material.service.ProductMaterialService;
+import com.autoflex.supply_core.global.dtos.PagedResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +56,12 @@ public class ProductController {
    }
 
    @GetMapping
-   public ResponseEntity<List<ProductResponse>> getAllProducts() {
-      List<ProductResponse> products = productService.getAllProducts().stream().map(ProductResponse::fromEntity)
-            .toList();
-      return ResponseEntity.ok(products);
+   public PagedResponse<Product> getAllProducts(
+         @RequestParam(defaultValue = "0", name = "page") int pageNumber,
+         @RequestParam(defaultValue = "10") int limit) {
+      Pageable pageable = Pageable.ofSize(limit).withPage(pageNumber);
+      Page<Product> page = productService.getAllProducts(pageable);
+      return PagedResponse.fromPage(page);
    }
 
    @GetMapping("/{id}")
