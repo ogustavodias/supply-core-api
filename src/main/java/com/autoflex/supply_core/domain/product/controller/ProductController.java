@@ -56,11 +56,11 @@ public class ProductController {
    }
 
    @GetMapping
-   public PagedResponse<Product> getAllProducts(
+   public PagedResponse<ProductResponse> getAllProducts(
          @RequestParam(defaultValue = "0", name = "page") int pageNumber,
          @RequestParam(defaultValue = "10") int limit) {
       Pageable pageable = Pageable.ofSize(limit).withPage(pageNumber);
-      Page<Product> page = productService.getAllProducts(pageable);
+      Page<ProductResponse> page = productService.getAllProducts(pageable).map(ProductResponse::fromEntity);
       return PagedResponse.fromPage(page);
    }
 
