@@ -1,10 +1,17 @@
 package com.autoflex.supply_core.domain.product_material.model;
 
+import java.time.Instant;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.autoflex.supply_core.domain.material.model.Material;
 import com.autoflex.supply_core.domain.product.model.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +33,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class ProductMaterial {
 
       @Id
@@ -42,5 +50,11 @@ public class ProductMaterial {
 
       @Column(nullable = false)
       private Integer requiredAmount;
+
+      @CreatedDate
+      private Instant createdAt;
+
+      @LastModifiedDate
+      private Instant updatedAt;
 
 }

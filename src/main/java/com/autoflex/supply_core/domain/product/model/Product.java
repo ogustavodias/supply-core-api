@@ -1,14 +1,20 @@
 package com.autoflex.supply_core.domain.product.model;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +33,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
 
    @Id
@@ -42,6 +49,12 @@ public class Product {
    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
    @Builder.Default
    private List<ProductMaterial> materials = new ArrayList<>();
+
+   @CreatedDate
+   private Instant createdAt;
+
+   @LastModifiedDate
+   private Instant updatedAt;
 
    public Boolean isProducible() {
       return materials.size() > 0
