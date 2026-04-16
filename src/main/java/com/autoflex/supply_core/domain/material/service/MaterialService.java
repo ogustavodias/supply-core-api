@@ -20,41 +20,41 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MaterialService {
 
-   private final MaterialRepository repository;
+    private final MaterialRepository repository;
 
-   public Page<Material> getAllMaterials(Pageable pageable) {
-      return repository.findAll(pageable);
-   }
+    public Page<Material> getAllMaterials(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
 
-   public List<Material> getAllMaterials(List<Long> ids) {
-      return repository.findAllById(ids);
-   }
+    public List<Material> getAllMaterials(List<Long> ids) {
+        return repository.findAllById(ids);
+    }
 
-   public Material getMaterial(Long id) {
-      return repository.findById(id).orElseThrow(
-            () -> new NotFoundException("material not found."));
-   }
+    public Material getMaterial(Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new NotFoundException("material not found."));
+    }
 
-   @Transactional
-   public Material registerMaterial(MaterialCreate data) {
-      Material toCreate = data.toEntity();
+    @Transactional
+    public Material registerMaterial(MaterialCreate data) {
+        Material toCreate = data.toEntity();
 
-      if (repository.existsByName(data.name) == false)
-         return repository.save(toCreate);
+        if (!repository.existsByName(data.name))
+            return repository.save(toCreate);
 
-      throw new NotPermittedException("material with that name already registered");
-   }
+        throw new NotPermittedException("material with that name already registered");
+    }
 
-   @Transactional
-   public Material editMaterial(Long id, MaterialUpdate data) {
-      Material material = getMaterial(id);
-      material.setStock(data.stock);
-      return repository.save(material);
-   }
+    @Transactional
+    public Material editMaterial(Long id, MaterialUpdate data) {
+        Material material = getMaterial(id);
+        material.setStock(data.stock);
+        return repository.save(material);
+    }
 
-   @Transactional
-   public void deleteMaterial(Long id) {
-      Material material = getMaterial(id);
-      repository.delete(material);
-   }
+    @Transactional
+    public void deleteMaterial(Long id) {
+        Material material = getMaterial(id);
+        repository.delete(material);
+    }
 }
