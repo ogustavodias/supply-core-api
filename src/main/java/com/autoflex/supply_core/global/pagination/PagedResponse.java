@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.global.dtos;
+package com.autoflex.supply_core.global.pagination;
 
 import java.util.List;
 

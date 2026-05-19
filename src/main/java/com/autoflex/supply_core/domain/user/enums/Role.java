@@ -1,0 +1,6 @@
+package com.autoflex.supply_core.domain.user.enums;
+
+public enum Role {
+    ROLE_ADMIN,
+    ROLE_USER
+}

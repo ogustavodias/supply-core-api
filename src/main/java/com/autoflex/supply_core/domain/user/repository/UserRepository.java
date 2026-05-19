@@ -8,5 +8,5 @@ import com.autoflex.supply_core.domain.user.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
    Optional<User> findByUsername(String username);
-
+   Boolean existsByUsername(String username);
 }

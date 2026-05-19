@@ -8,8 +8,8 @@ import com.autoflex.supply_core.domain.material.model.Material;
 import com.autoflex.supply_core.domain.product.model.Product;
 import com.autoflex.supply_core.domain.product_material.model.ProductMaterial;
 import com.autoflex.supply_core.domain.product_material.repository.ProductMaterialRepository;
-import com.autoflex.supply_core.errors.NotFoundException;
-import com.autoflex.supply_core.errors.NotPermittedException;
+import com.autoflex.supply_core.errors.exceptions.NotFoundException;
+import com.autoflex.supply_core.errors.exceptions.NotPermittedException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

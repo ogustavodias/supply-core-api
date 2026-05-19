@@ -10,7 +10,7 @@ import org.mockito.Mockito;
 
 import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
 import com.autoflex.supply_core.domain.material.repository.MaterialRepository;
-import com.autoflex.supply_core.errors.NotPermittedException;
+import com.autoflex.supply_core.errors.exceptions.NotPermittedException;
 
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 public class MaterialServiceTest {

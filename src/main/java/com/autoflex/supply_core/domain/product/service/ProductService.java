@@ -10,7 +10,7 @@ import com.autoflex.supply_core.domain.product.dtos.ProductUpdate;
 import com.autoflex.supply_core.domain.product.model.Product;
 import com.autoflex.supply_core.domain.product.repository.ProductRepository;
 
-import com.autoflex.supply_core.errors.NotFoundException;
+import com.autoflex.supply_core.errors.exceptions.NotFoundException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

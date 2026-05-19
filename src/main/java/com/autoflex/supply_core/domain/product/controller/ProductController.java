@@ -28,7 +28,7 @@ import com.autoflex.supply_core.domain.product.service.ProductService;
 import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialCreate;
 import com.autoflex.supply_core.domain.product_material.dtos.ProductMaterialResponse;
 import com.autoflex.supply_core.domain.product_material.service.ProductMaterialService;
-import com.autoflex.supply_core.global.dtos.PagedResponse;
+import com.autoflex.supply_core.global.pagination.PagedResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

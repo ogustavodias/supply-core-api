@@ -11,8 +11,8 @@ import com.autoflex.supply_core.domain.material.dtos.MaterialCreate;
 import com.autoflex.supply_core.domain.material.dtos.MaterialUpdate;
 import com.autoflex.supply_core.domain.material.model.Material;
 import com.autoflex.supply_core.domain.material.repository.MaterialRepository;
-import com.autoflex.supply_core.errors.NotFoundException;
-import com.autoflex.supply_core.errors.NotPermittedException;
+import com.autoflex.supply_core.errors.exceptions.NotFoundException;
+import com.autoflex.supply_core.errors.exceptions.NotPermittedException;
 
 import lombok.RequiredArgsConstructor;
 

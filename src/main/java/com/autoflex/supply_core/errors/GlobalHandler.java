@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.autoflex.supply_core.errors.exceptions.AlreadyExistsException;
+import com.autoflex.supply_core.errors.exceptions.NotFoundException;
+import com.autoflex.supply_core.errors.exceptions.NotPermittedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -39,6 +42,18 @@ public class GlobalHandler {
       log.error("Not Permitted {}: {}", errorTrace, e.getMessage());
 
       ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_CONTENT);
+      problem.setProperty("errorTrace", errorTrace);
+      problem.setTitle(e.getMessage());
+
+      return problem;
+   }
+
+   @ExceptionHandler(AlreadyExistsException.class)
+   public ProblemDetail handleAlreadyExists(AlreadyExistsException e) {
+      String errorTrace = UUID.randomUUID().toString();
+      log.error("Already Exists {}: {}", errorTrace, e.getMessage());
+
+      ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
       problem.setProperty("errorTrace", errorTrace);
       problem.setTitle(e.getMessage());
 
