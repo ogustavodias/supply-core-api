@@ -2,7 +2,11 @@ package com.autoflex.supply_core.domain.material.model;
 
 import java.time.Instant;
 
+import com.autoflex.supply_core.domain.shared.model.AuditableEntity;
+import com.autoflex.supply_core.domain.user.model.User;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -27,9 +31,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Material {
-
+public class Material extends AuditableEntity {
    @Id
    @GeneratedValue(strategy = GenerationType.SEQUENCE)
    @Setter(value = AccessLevel.NONE)
@@ -40,11 +42,4 @@ public class Material {
 
    @Column(nullable = false)
    private Integer stock;
-
-   @CreatedDate
-   private Instant createdAt;
-
-   @LastModifiedDate
-   private Instant updatedAt;
-
 }

@@ -2,6 +2,7 @@ package com.autoflex.supply_core.domain.product_material.model;
 
 import java.time.Instant;
 
+import com.autoflex.supply_core.domain.shared.model.AuditableEntity;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,9 +34,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class ProductMaterial {
-
+public class ProductMaterial extends AuditableEntity {
       @Id
       @GeneratedValue(strategy = GenerationType.SEQUENCE)
       private Long id;
@@ -50,11 +49,4 @@ public class ProductMaterial {
 
       @Column(nullable = false)
       private Integer requiredAmount;
-
-      @CreatedDate
-      private Instant createdAt;
-
-      @LastModifiedDate
-      private Instant updatedAt;
-
 }

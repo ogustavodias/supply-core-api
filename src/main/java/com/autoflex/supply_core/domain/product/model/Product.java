@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.autoflex.supply_core.domain.shared.model.AuditableEntity;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,8 +34,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Product {
+public class Product extends AuditableEntity {
 
    @Id
    @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -49,12 +49,6 @@ public class Product {
    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
    @Builder.Default
    private List<ProductMaterial> materials = new ArrayList<>();
-
-   @CreatedDate
-   private Instant createdAt;
-
-   @LastModifiedDate
-   private Instant updatedAt;
 
    public Boolean isProducible() {
       return materials.size() > 0
