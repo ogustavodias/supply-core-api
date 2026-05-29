@@ -1,18 +1,10 @@
 package com.autoflex.supply_core.domain.material.model;
 
-import java.time.Instant;
-
 import com.autoflex.supply_core.domain.shared.model.AuditableEntity;
-import com.autoflex.supply_core.domain.user.model.User;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import jakarta.persistence.Version;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,4 +34,7 @@ public class Material extends AuditableEntity {
 
    @Column(nullable = false)
    private Integer stock;
+
+   @Version
+   private Long version;
 }

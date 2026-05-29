@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.global.auth.service;
+package com.autoflex.supply_core.security.auth.service;
 
 import com.autoflex.supply_core.domain.user.model.User;
 import com.autoflex.supply_core.domain.user.repository.UserRepository;

@@ -1,8 +1,8 @@
-package com.autoflex.supply_core.global.auth.controller;
+package com.autoflex.supply_core.security.auth.controller;
 
 import com.autoflex.supply_core.domain.user.dtos.UserCreate;
 import com.autoflex.supply_core.domain.user.model.User;
-import com.autoflex.supply_core.global.auth.service.AuthService;
+import com.autoflex.supply_core.security.auth.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

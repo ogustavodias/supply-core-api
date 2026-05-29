@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.global.auth.service;
+package com.autoflex.supply_core.domain.user.security;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

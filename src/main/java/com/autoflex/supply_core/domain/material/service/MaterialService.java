@@ -48,7 +48,7 @@ public class MaterialService {
     @Transactional
     public Material editMaterial(Long id, MaterialUpdate data) {
         Material material = getMaterial(id);
-        material.setStock(data.stock);
+        material.setStock(data.stock());
         return repository.save(material);
     }
 

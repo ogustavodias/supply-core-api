@@ -1,4 +1,4 @@
-package com.autoflex.supply_core.global.auth.config;
+package com.autoflex.supply_core.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
